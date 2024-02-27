@@ -1,0 +1,68 @@
+﻿@model IEnumerable<Feedback>
+@{
+    ViewData["Title"] = "My Feedbacks";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .circle-container {
+        position: relative;
+        width: 60%;
+        height: 700px;
+        background-color: white;
+        border-radius: 2%;
+        border: none;
+        margin: 20px auto;
+        overflow: hidden;
+        margin-top: 0;
+        display: flex;
+        justify-content: center;
+        overflow: scroll;
+    }
+
+    .editable-content {
+        padding: 5%;
+        width: 100%;
+    }
+
+    #back {
+        width:150px ;
+        margin-left: 21%;
+        margin-bottom: 2px;
+
+    }
+</style>
+<h2 class="text-white" style="text-align:center; margin:10px;">@ViewData["Title"]</h2>
+<a asp-controller="Feedback" asp-action="Index" class="btn btn-warning" id="back"> << back</a>
+<div class="circle-container" >
+    <div class="editable-content">
+        @foreach (Feedback feedback in Model)
+        {
+            <div style="display:flex; flex-direction:column;">
+                <div style="display:flex; flex-direction:row; justify-content:space-between;">
+                    @if (feedback.User != null)
+                    {
+                        <h4>@feedback.User.name </h4>
+                    }
+                    else
+                    {
+                        <p>User not available</p>
+
+
+                    }
+                    <div>
+                        <p style=" margin-right:5px; color:gray;">Rating:</p>
+                        <span style="color:gray;">@feedback.Rate /5</span>
+                    </div>
+                </div>
+                <p style="align-self:flex-start; text-align:left">
+                    @feedback.feedback_details
+                </p>
+                <div>
+                <a asp-controller="Feedback" asp-action="editFeedback" asp-route-Id="@feedback.Id" class="btn btn-primary" id="myfeedback">Edit</a>
+                    <a asp-controller="Feedback" asp-action="deleteFeedback" asp-route-Id="@feedback.Id" class="btn btn-warning">Delete</a>
+                </div>
+            </div>
+            <hr>
+        }
+    </div>
+</div>
